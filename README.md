@@ -1,7 +1,5 @@
 # alx-project-nexus
 
-# alx-project-nexus
-
 ## Overview
 The **ProDev Backend Engineering Program** is designed to provide learners with practical skills in backend development. It emphasizes building reliable, scalable, and secure applications using industry-standard tools and frameworks.  
 This repository documents my major learnings, challenges, and best practices throughout the program.
