@@ -1,0 +1,83 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+  push:
+    branches: ["dev", "feature/*"]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd="pg_isready -U testuser -d testdb"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgres://testuser:testpass@localhost:5432/testdb
+      REDIS_URL: redis://localhost:6379/0
+      SECRET_KEY: testsecret
+      DEBUG: 1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install black flake8 isort pytest pytest-django coverage
+
+      # --- Auto-formatting & linting ---
+      - name: Run isort (auto-fix imports)
+        run: isort .
+
+      - name: Run black (auto-fix formatting)
+        run: black .
+
+      - name: Run flake8 (lint after fixes)
+        run: flake8 .
+
+      # --- Optional: auto-commit fixes back to branch ---
+      - name: Auto commit formatting fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: auto-fix formatting with black + isort"
+          branch: ${{ github.head_ref }}
+
+      # --- Run tests ---
+      - name: Run Tests with Coverage
+        run: |
+          coverage run -m pytest --ds=movie_backend.settings --disable-warnings --maxfail=3
+          coverage report -m
