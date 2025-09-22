@@ -1,0 +1,186 @@
+{
+  "info": {
+    "name": "Project Nexus API",
+    "_postman_id": "d1f7c8b1-4d29-4a32-8b45-xyz123abc",
+    "description": "Postman collection for Project Nexus (Auth + Movies + TV Shows APIs).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/register/", "host": ["{{base_url}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/login/", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/logout/", "host": ["{{base_url}}"], "path": ["auth", "logout"] }
+          }
+        },
+        {
+          "name": "Current User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": { "raw": "{{base_url}}/auth/me/", "host": ["{{base_url}}"], "path": ["auth", "me"] }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_updated\",\n  \"email\": \"john_updated@example.com\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/me/update/", "host": ["{{base_url}}"], "path": ["auth", "me", "update"] }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": { "raw": "{{base_url}}/auth/me/delete/", "host": ["{{base_url}}"], "path": ["auth", "me", "delete"] }
+          }
+        },
+        {
+          "name": "Admin Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{admin_access_token}}" }],
+            "url": { "raw": "{{base_url}}/auth/users/1/", "host": ["{{base_url}}"], "path": ["auth", "users", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Movies",
+      "item": [
+        {
+          "name": "Trending Movies",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/v1/movies/trending_movies/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "trending_movies"] }
+          }
+        },
+        {
+          "name": "Top Rated Movies",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/v1/movies/top_rated_movies/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "top_rated_movies"] }
+          }
+        },
+        {
+          "name": "Search Movies",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/movies/search_movies/?q=batman",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "movies", "search_movies"],
+              "query": [{ "key": "q", "value": "batman" }]
+            }
+          }
+        },
+        {
+          "name": "Retrieve Movie",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/v1/movies/1/retrieve_movie/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1", "retrieve_movie"] }
+          }
+        },
+        {
+          "name": "Movie Recommendations",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/v1/movies/1/movie_recommendations/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1", "movie_recommendations"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "TV Shows",
+      "item": [
+        {
+          "name": "Trending TV Shows",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/v1/movies/trending_tv/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "trending_tv"] }
+          }
+        },
+        {
+          "name": "Search TV Shows",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/movies/search_tv/?q=breaking",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "movies", "search_tv"],
+              "query": [{ "key": "q", "value": "breaking" }]
+            }
+          }
+        },
+        {
+          "name": "Retrieve TV Show",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/v1/movies/1399/retrieve_tv/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1399", "retrieve_tv"] }
+          }
+        },
+        {
+          "name": "TV Show Recommendations",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/v1/movies/1399/tv_recommendations/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1399", "tv_recommendations"] }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8000" },
+    { "key": "access_token", "value": "" },
+    { "key": "refresh_token", "value": "" },
+    { "key": "admin_access_token", "value": "" }
+  ]
+}

@@ -34,19 +34,14 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include("authz.urls")),
-    path("api/users/", include("users.urls")),
-    path("api/movies/", include("movies.urls")),
-    # Swagger endpoints
-    re_path(
-        r"^swagger(?P<format>\.json|\.yaml)$",
-        schema_view.without_ui(cache_timeout=0),
-        name="schema-json",
-    ),
-    path(
-        "swagger/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
-    ),
-    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+
+    # Versioned API
+    path("api/v1/auth/", include("authz.urls")), 
+    path("api/v1/users/", include("users.urls")),
+    path("api/v1/movies/", include(("movies.urls", "movies"), namespace="v1")),
+
+    # Swagger
+    path("swagger(<format>\.json|\.yaml)", schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path("swagger/", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path("redoc/", schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

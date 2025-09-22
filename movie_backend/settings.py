@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "django_celery_beat",
+    "django_extensions",
     # local apps
     "authz",
     "users",
@@ -95,13 +96,19 @@ DATABASES = {
         "DATABASE_URL",
         default=f"postgres://{env('POSTGRES_USER')}:{env('POSTGRES_PASSWORD')}@{env('POSTGRES_HOST')}:{env('POSTGRES_PORT')}/{env('POSTGRES_DB')}",
     ),
+    "OPTIONS": {
+        "sslmode": "require",
+    },
 }
 
 # DRF + JWT Settings
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
+    "DEFAULT_VERSION": "v1",
+    "ALLOWED_VERSIONS": ["v1"],
 }
 
 SIMPLE_JWT = {

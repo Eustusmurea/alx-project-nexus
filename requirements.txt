@@ -64,3 +64,7 @@ vine==5.1.0
 virtualenv==20.34.0
 wcwidth==0.2.13
 whitenoise==6.11.0
+gunicorn==22.0.0
+django-extensions
+
+
