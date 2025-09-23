@@ -13,28 +13,32 @@
           "name": "Register",
           "request": {
             "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
             },
-            "url": { "raw": "{{base_url}}/auth/register/", "host": ["{{base_url}}"], "path": ["auth", "register"] }
+            "url": {
+              "raw": "{{base_url}}/auth/register/",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
           }
         },
         {
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
             },
-            "url": { "raw": "{{base_url}}/auth/login/", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+            "url": {
+              "raw": "{{base_url}}/auth/login/",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
           }
         },
         {
@@ -45,11 +49,12 @@
               { "key": "Authorization", "value": "Bearer {{access_token}}" },
               { "key": "Content-Type", "value": "application/json" }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
-            },
-            "url": { "raw": "{{base_url}}/auth/logout/", "host": ["{{base_url}}"], "path": ["auth", "logout"] }
+            "body": { "mode": "raw", "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}" },
+            "url": {
+              "raw": "{{base_url}}/auth/logout/",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
           }
         },
         {
@@ -57,7 +62,11 @@
           "request": {
             "method": "GET",
             "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
-            "url": { "raw": "{{base_url}}/auth/me/", "host": ["{{base_url}}"], "path": ["auth", "me"] }
+            "url": {
+              "raw": "{{base_url}}/auth/user/me/",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "user", "me"]
+            }
           }
         },
         {
@@ -72,7 +81,11 @@
               "mode": "raw",
               "raw": "{\n  \"username\": \"john_updated\",\n  \"email\": \"john_updated@example.com\"\n}"
             },
-            "url": { "raw": "{{base_url}}/auth/me/update/", "host": ["{{base_url}}"], "path": ["auth", "me", "update"] }
+            "url": {
+              "raw": "{{base_url}}/auth/user/update/",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "user", "update"]
+            }
           }
         },
         {
@@ -80,15 +93,11 @@
           "request": {
             "method": "DELETE",
             "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
-            "url": { "raw": "{{base_url}}/auth/me/delete/", "host": ["{{base_url}}"], "path": ["auth", "me", "delete"] }
-          }
-        },
-        {
-          "name": "Admin Get User by ID",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{admin_access_token}}" }],
-            "url": { "raw": "{{base_url}}/auth/users/1/", "host": ["{{base_url}}"], "path": ["auth", "users", "1"] }
+            "url": {
+              "raw": "{{base_url}}/auth/user/delete/",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "user", "delete"]
+            }
           }
         }
       ]
@@ -100,14 +109,22 @@
           "name": "Trending Movies",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/movies/trending_movies/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "trending_movies"] }
+            "url": {
+              "raw": "{{base_url}}/movies/trending_movies/",
+              "host": ["{{base_url}}"],
+              "path": ["movies", "trending_movies"]
+            }
           }
         },
         {
           "name": "Top Rated Movies",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/movies/top_rated_movies/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "top_rated_movies"] }
+            "url": {
+              "raw": "{{base_url}}/movies/top_rated_movies/",
+              "host": ["{{base_url}}"],
+              "path": ["movies", "top_rated_movies"]
+            }
           }
         },
         {
@@ -115,9 +132,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/api/v1/movies/search_movies/?q=batman",
+              "raw": "{{base_url}}/movies/search_movies/?q=batman",
               "host": ["{{base_url}}"],
-              "path": ["api", "v1", "movies", "search_movies"],
+              "path": ["movies", "search_movies"],
               "query": [{ "key": "q", "value": "batman" }]
             }
           }
@@ -126,14 +143,22 @@
           "name": "Retrieve Movie",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/movies/1/retrieve_movie/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1", "retrieve_movie"] }
+            "url": {
+              "raw": "{{base_url}}/movies/1/retrieve_movie/",
+              "host": ["{{base_url}}"],
+              "path": ["movies", "1", "retrieve_movie"]
+            }
           }
         },
         {
           "name": "Movie Recommendations",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/movies/1/movie_recommendations/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1", "movie_recommendations"] }
+            "url": {
+              "raw": "{{base_url}}/movies/1/movie_recommendations/",
+              "host": ["{{base_url}}"],
+              "path": ["movies", "1", "movie_recommendations"]
+            }
           }
         }
       ]
@@ -145,7 +170,11 @@
           "name": "Trending TV Shows",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/movies/trending_tv/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "trending_tv"] }
+            "url": {
+              "raw": "{{base_url}}/movies/trending_tv/",
+              "host": ["{{base_url}}"],
+              "path": ["movies", "trending_tv"]
+            }
           }
         },
         {
@@ -153,9 +182,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/api/v1/movies/search_tv/?q=breaking",
+              "raw": "{{base_url}}/movies/search_tv/?q=breaking",
               "host": ["{{base_url}}"],
-              "path": ["api", "v1", "movies", "search_tv"],
+              "path": ["movies", "search_tv"],
               "query": [{ "key": "q", "value": "breaking" }]
             }
           }
@@ -164,23 +193,30 @@
           "name": "Retrieve TV Show",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/movies/1399/retrieve_tv/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1399", "retrieve_tv"] }
+            "url": {
+              "raw": "{{base_url}}/movies/1399/retrieve_tv/",
+              "host": ["{{base_url}}"],
+              "path": ["movies", "1399", "retrieve_tv"]
+            }
           }
         },
         {
           "name": "TV Show Recommendations",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/movies/1399/tv_recommendations/", "host": ["{{base_url}}"], "path": ["api", "v1", "movies", "1399", "tv_recommendations"] }
+            "url": {
+              "raw": "{{base_url}}/movies/1399/tv_recommendations/",
+              "host": ["{{base_url}}"],
+              "path": ["movies", "1399", "tv_recommendations"]
+            }
           }
         }
       ]
     }
   ],
   "variable": [
-    { "key": "base_url", "value": "http://localhost:8000" },
+    { "key": "base_url", "value": "http://localhost/api/v1" },
     { "key": "access_token", "value": "" },
-    { "key": "refresh_token", "value": "" },
-    { "key": "admin_access_token", "value": "" }
+    { "key": "refresh_token", "value": "" }
   ]
 }
