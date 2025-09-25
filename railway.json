@@ -1,8 +1,8 @@
 {
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "project_nexus/alx-project-nexus/Dockerfile",
-    "context": "project_nexus/alx-project-nexus"
+    "dockerfilePath": "./Dockerfile",
+    "context": "."
   },
   "deploy": {
     "services": [
