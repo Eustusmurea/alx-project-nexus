@@ -36,8 +36,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     # Versioned API
-    path("api/v1/auth/", include("authz.urls")), 
-    path("api/v1/users/", include("users.urls")),
+    path("api/v1/auth/", include(("authz.urls", "authz"), namespace="v1")),
+    path("api/v1/users/", include(("users.urls", "users"), namespace="v1")),
     path("api/v1/movies/", include(("movies.urls", "movies"), namespace="v1")),
 
     # Swagger

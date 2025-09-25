@@ -1,0 +1,21 @@
+{
+  "build": {
+    "builder": "DOCKERFILE"
+  },
+  "deploy": {
+    "services": [
+      {
+        "name": "web",
+        "startCommand": "gunicorn movie_backend.wsgi:application --bind 0.0.0.0:$PORT --workers 4"
+      },
+      {
+        "name": "celery_worker",
+        "startCommand": "celery -A movie_backend worker -l info"
+      },
+      {
+        "name": "celery_beat",
+        "startCommand": "celery -A movie_backend beat -l info"
+      }
+    ]
+  }
+}

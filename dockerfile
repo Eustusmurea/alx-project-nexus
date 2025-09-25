@@ -14,8 +14,7 @@ RUN python -m pip install --upgrade pip setuptools wheel
 
 # Copy and install dependencies first (leverage Docker cache)
 COPY requirements.txt .
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files
 COPY . .
@@ -26,5 +25,5 @@ RUN python manage.py collectstatic --noinput
 # Expose port
 EXPOSE 8000
 
-# Start Gunicorn server
-CMD ["gunicorn", "movie_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4"]
+# Default command (Railway injects $PORT automatically)
+CMD ["gunicorn", "movie_backend.wsgi:application", "--bind", "0.0.0.0:${PORT}", "--workers", "4"]
