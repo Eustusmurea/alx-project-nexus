@@ -1,0 +1,94 @@
+-- Suggested SQL (PostgreSQL) - Updated Schema
+
+CREATE TABLE users_user (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(150) UNIQUE,
+  email VARCHAR(254) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE users_userprofile (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER UNIQUE REFERENCES users_user(id) ON DELETE CASCADE,
+  bio TEXT,
+  avatar VARCHAR(255),
+  phone_number VARCHAR(15),
+  created_at TIMESTAMP DEFAULT now(),
+  welcome_email_sent BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE movies_genre (
+  id SERIAL PRIMARY KEY,
+  tmdb_id INTEGER UNIQUE,
+  name VARCHAR(100)
+);
+
+CREATE TABLE movies_movie (
+  id SERIAL PRIMARY KEY,
+  tmdb_id INTEGER UNIQUE,
+  title VARCHAR(255) NOT NULL,
+  overview TEXT,
+  poster_path VARCHAR(255),
+  cached_at TIMESTAMP DEFAULT now(),
+  cache_ttl INTEGER DEFAULT 86400
+);
+
+CREATE TABLE movies_tvshow (
+  id SERIAL PRIMARY KEY,
+  tmdb_id INTEGER UNIQUE,
+  name VARCHAR(255) NOT NULL,
+  overview TEXT,
+  first_air_date DATE,
+  poster_path VARCHAR(255),
+  cached_at TIMESTAMP DEFAULT now(),
+  cache_ttl INTEGER DEFAULT 86400
+);
+
+CREATE TABLE movies_movie_genres (
+  id SERIAL PRIMARY KEY,
+  movie_id INTEGER REFERENCES movies_movie(id) ON DELETE CASCADE,
+  genre_id INTEGER REFERENCES movies_genre(id) ON DELETE CASCADE
+);
+
+CREATE TABLE movies_tvshow_genres (
+  id SERIAL PRIMARY KEY,
+  tvshow_id INTEGER REFERENCES movies_tvshow(id) ON DELETE CASCADE,
+  genre_id INTEGER REFERENCES movies_genre(id) ON DELETE CASCADE
+);
+
+CREATE TABLE movies_userfavorite (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users_user(id) ON DELETE CASCADE,
+  movie_id INTEGER REFERENCES movies_movie(id) ON DELETE CASCADE,
+  added_at TIMESTAMP DEFAULT now(),
+  UNIQUE(user_id, movie_id)
+);
+
+CREATE TABLE movies_userwatchlist (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users_user(id) ON DELETE CASCADE,
+  movie_id INTEGER REFERENCES movies_movie(id) ON DELETE CASCADE,
+  added_at TIMESTAMP DEFAULT now(),
+  UNIQUE(user_id, movie_id)
+);
+
+CREATE TABLE movies_userreview (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users_user(id) ON DELETE CASCADE,
+  movie_id INTEGER REFERENCES movies_movie(id) ON DELETE CASCADE,
+  review_text TEXT,
+  rating INTEGER,
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now(),
+  UNIQUE(user_id, movie_id)
+);
+
+-- Implicit many-to-many: users_user.favourites → movies_movie
+CREATE TABLE users_user_favourites (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users_user(id) ON DELETE CASCADE,
+  movie_id INTEGER REFERENCES movies_movie(id) ON DELETE CASCADE,
+  UNIQUE(user_id, movie_id)
+);
