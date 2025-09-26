@@ -1,5 +1,5 @@
 apiVersion: 2019-12-01
-location: eastus
+location: eastus   # or your region
 name: projectnexus-group
 properties:
   containers:
@@ -11,10 +11,10 @@ properties:
             cpu: 1
             memoryInGb: 1.5
         ports:
-          - port: 8000
+          - port: 80    # 👈 Django served on 80
         environmentVariables:
           - name: SECRET_KEY
-            value: "your-secret-key"
+            value: "!)5u9lj*i+2fyt7z*4uw0=g^aptv@onrk9vtdhm#un0u54k1pz"
           - name: DEBUG
             value: "True"
           - name: POSTGRES_DB
@@ -29,6 +29,23 @@ properties:
             value: "5432"
           - name: REDIS_URL
             value: "redis://redis:6379/1"
+          - name: ALLOWED_HOSTS
+            value: "0.0.0.0,allstare.onrender.com"
+          - name: EMAIL_HOST
+            value: "smtp.gmail.com"
+          - name: EMAIL_PORT
+            value: "587"
+          - name: EMAIL_USE_TLS
+            value: "True"
+          - name: EMAIL_HOST_USER
+            value: "mwirigieustus7@gmail.com"
+          - name: EMAIL_HOST_PASSWORD
+            value: "ijcx vbas mqxi hivt"
+          - name: TMDB_API_KEY
+            value: "d25edd842bbaed8ad798a7134be98794"
+          - name: TMDB_READ
+            value: "eyJhbGciOiJIUzI1NiJ9..."
+
     - name: postgres
       properties:
         image: postgres:15
@@ -45,6 +62,7 @@ properties:
             value: "eustus"
           - name: POSTGRES_PASSWORD
             value: "movies"
+
     - name: redis
       properties:
         image: redis:7
@@ -54,13 +72,11 @@ properties:
             memoryInGb: 0.5
         ports:
           - port: 6379
+
+  osType: Linux
   ipAddress:
     type: Public
     ports:
       - protocol: tcp
-        port: 80
-      - protocol: tcp
-        port: 8000
-  osType: Linux
+        port: 80   # 👈 external port 80 points to Django’s port 80
   restartPolicy: Always
-type: Microsoft.ContainerInstance/containerGroups
