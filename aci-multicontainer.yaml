@@ -1,0 +1,89 @@
+apiVersion: 2019-12-01
+location: eastus
+name: projectnexus-group
+properties:
+  containers:
+  - name: projectnexus-api
+    properties:
+      image: nexusregistryeustus.azurecr.io/projectnexus-api:v1
+      ports:
+      - port: 80
+      - port: 8000
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGb: 1.5
+      environmentVariables:
+      - name: SECRET_KEY
+        value: "!)5u9lj*i+2fyt7z*4uw0=g^aptv@onrk9vtdhm#un0u54k1pz"
+      - name: DEBUG
+        value: "True"
+      - name: POSTGRES_DB
+        value: "movie_db"
+      - name: POSTGRES_USER
+        value: "eustus"
+      - name: POSTGRES_PASSWORD
+        value: "movies"
+      - name: POSTGRES_HOST
+        value: "postgres"
+      - name: POSTGRES_PORT
+        value: "5432"
+      - name: REDIS_URL
+        value: "redis://redis:6379/1"
+      - name: ALLOWED_HOSTS
+        value: "0.0.0.0,allstare.onrender.com"
+      - name: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - name: EMAIL_PORT
+        value: "587"
+      - name: EMAIL_USE_TLS
+        value: "True"
+      - name: EMAIL_HOST_USER
+        value: "mwirigieustus7@gmail.com"
+      - name: EMAIL_HOST_PASSWORD
+        value: "ijcx vbas mqxi hivt"
+      - name: TMDB_API_KEY
+        value: "d25edd842bbaed8ad798a7134be98794"
+      - name: TMDB_READ
+        value: "eyJhbGciOiJIUzI1NiJ9..."
+  - name: postgres
+    properties:
+      image: postgres:15
+      ports:
+      - port: 5432
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGb: 1.0
+      environmentVariables:
+      - name: POSTGRES_DB
+        value: "movie_db"
+      - name: POSTGRES_USER
+        value: "eustus"
+      - name: POSTGRES_PASSWORD
+        value: "movies"
+  - name: redis
+    properties:
+      image: redis:7
+      ports:
+      - port: 6379
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 0.5
+  ipAddress:
+    type: Public
+    dnsNameLabel: nexus-api-eustus
+    ports:
+    - protocol: tcp
+      port: 80
+    - protocol: tcp
+      port: 8000
+    - protocol: tcp
+      port: 5432
+    - protocol: tcp
+      port: 6379
+  osType: Linux
+  restartPolicy: Always
+tags: {}
+type: Microsoft.ContainerInstance/containerGroups

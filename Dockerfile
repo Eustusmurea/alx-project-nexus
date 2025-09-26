@@ -23,4 +23,4 @@ COPY . .
 EXPOSE 8000
 
 # Start Gunicorn + run collectstatic on container startup
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn movie_backend.wsgi:application --bind 0.0.0.0:${PORT} --workers 4"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn movie_backend.wsgi:application --bind 0.0.0.0:8000 --workers 4"]
