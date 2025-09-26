@@ -19,11 +19,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-# Collect static files with a dummy SECRET_KEY for build only
-RUN SECRET_KEY=dummysecret python manage.py collectstatic --noinput
-
 # Expose port
 EXPOSE 8000
 
-# Default command (Azure injects $PORT automatically)
-CMD ["gunicorn", "movie_backend.wsgi:application", "--bind", "0.0.0.0:${PORT}", "--workers", "4"]
+# Start Gunicorn + run collectstatic on container startup
+CMD python manage.py collectstatic --noinput && \
+    gunicorn movie_backend.wsgi:application --bind 0.0.0.0:${PORT} --workers 4
